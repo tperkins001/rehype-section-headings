@@ -1,0 +1,60 @@
+{
+	"name": "rehype-section-headings",
+	"version": "1.0.0",
+	"description": "Wraps all heading elements and any following content with section tags",
+	"keywords": [
+		"unified",
+		"rehype",
+		"rehype-plugin",
+		"html",
+		"section",
+		"heading"
+	],
+	"author": {
+		"name": "Tim Perkins",
+		"email": "me@tperkins.com"
+	},
+	"license": "MIT",
+	"homepage": "https://github.com/tperkins001/rehype-section-headings",
+	"bugs": "https://github.com/tperkins001/rehype-section-headings/issues",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tperkins001/rehype-section-headings.git"
+	},
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.umd.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"require": "./dist/index.umd.cjs"
+		}
+	},
+	"dependencies": {
+		"unist-util-visit": "4.1.1"
+	},
+	"devDependencies": {
+		"@types/hast": "2.3.4",
+		"@vitest/coverage-c8": "0.25.8",
+		"hast-util-to-html": "8.0.3",
+		"hastscript": "7.1.0",
+		"prettier": "2.8.1",
+		"rehype": "12.0.1",
+		"rehype-parse": "8.0.4",
+		"rehype-stringify": "9.0.3",
+		"typescript": "4.9.4",
+		"unified": "10.1.2",
+		"vite": "4.0.1",
+		"vitest": "0.25.8"
+	},
+	"scripts": {
+		"format": "prettier . --write",
+		"build": "vite build && tsc",
+		"test": "vitest",
+		"coverage": "vitest run --coverage"
+	}
+}
