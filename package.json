@@ -38,6 +38,7 @@
 		"unist-util-visit": "4.1.1"
 	},
 	"devDependencies": {
+		"@changesets/cli": "2.26.0",
 		"@types/hast": "2.3.4",
 		"@vitest/coverage-c8": "0.25.8",
 		"hast-util-to-html": "8.0.3",
@@ -53,8 +54,10 @@
 	},
 	"scripts": {
 		"format": "prettier . --write",
-		"build": "vite build && tsc",
+		"lint": "tsc && prettier --check .",
 		"test": "vitest",
-		"coverage": "vitest run --coverage"
+		"coverage": "vitest run --coverage",
+		"build": "vite build",
+		"release": "pnpm build && changeset publish"
 	}
 }
