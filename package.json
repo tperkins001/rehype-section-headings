@@ -54,7 +54,7 @@
 	},
 	"scripts": {
 		"format": "prettier . --write",
-		"lint": "tsc && prettier --check .",
+		"lint": "tsc && prettier . --check",
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
 		"build": "tsup",
