@@ -80,9 +80,9 @@ Type: `string`.
 Default: `undefined`.
 
 If any heading elements have an `id` attribute, this plugin will take the
-data-* attribute name specified here and add it against any `<section>` tags.
+data-\* attribute name specified here and add it against any `<section>` tags.
 
-The value of the data-* attribute will be the same as the heading elements `id` attribute.
+The value of the data-\* attribute will be the same as the heading elements `id` attribute.
 
 ```js
 import rehype from "rehype";
@@ -96,7 +96,7 @@ const html = `
 <p>Hello again, world!</p>
 `;
 
-rehype().use(rehypeSectionHeadings, {sectionDataAttribute: "data-heading-id"}).process(html);
+rehype().use(rehypeSectionHeadings, { sectionDataAttribute: "data-heading-id" }).process(html);
 ```
 
 ...results in the following output
