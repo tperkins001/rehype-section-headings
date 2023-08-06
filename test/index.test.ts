@@ -19,6 +19,7 @@ const h5 = (...args) => h("h5", ...args);
 const h6 = (...args) => h("h6", ...args);
 const p = (...args) => h("p", ...args);
 const span = (...args) => h("span", ...args);
+const div = (...args) => h("div", ...args);
 
 describe("without options", () => {
 	let processor: Processor<Root, Root, Root, string>;
@@ -886,3 +887,45 @@ describe("with maxHeadingLevel", () => {
 		});
 	})
 });
+
+describe("with headingWrapElement", () => {
+	let processor: Processor<Root, Root, Root, string>;
+
+	beforeAll(() => {
+		processor = rehype()
+			.use(rehypeParse, { fragment: true })
+			.use(rehypeSectionHeadings, { headingWrapElement: "div" })
+			.use(rehypeStringify);
+	});
+
+	test("wraps headings in divs", () => {
+		// Arrange
+		// prettier-ignore
+		const original = toHtml(
+			[
+				h1("Heading h1"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+				h2("Heading h2"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+			],
+		);
+
+		// prettier-ignore
+		const expected = toHtml(
+			[
+				section(
+					[div(h1("Heading h1")),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
+				section(
+					[div(h2("Heading h2")),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
+			],
+		);
+
+		// Act
+		processor.process(original, (_, actual) => {
+			// Assert
+			expect(actual?.value).toStrictEqual(expected);
+		});
+	}
+})
