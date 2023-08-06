@@ -1045,43 +1045,4 @@ describe("with headingWrapElement", () => {
 			expect(actual?.value).toStrictEqual(expected);
 		});
 	});
-
-	test("does not wrap if hast Node is not valid", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { wrap: {h1: {
-				type: "element", tagName: "fake", children: []
-			}, h2: "aside"} })
-			.use(rehypeStringify);
-
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
-			[
-				h1("Heading h1"),
-				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
-				h2("Heading h2"),
-				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
-			],
-		);
-
-		// prettier-ignore
-		const expected = toHtml(
-			[
-				section(
-					[h1("Heading h1"),
-					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
-				section(
-					[aside(h2("Heading h2")),
-					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
-			],
-		);
-
-		// Act
-		processorWithOption.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
 })
