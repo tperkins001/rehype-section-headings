@@ -1,6 +1,7 @@
 import type { Plugin } from "unified";
 import type { Element, ElementContent, Properties, Root, RootContent } from "hast";
 import { visit } from "unist-util-visit";
+import {isElement} from "hast-util-is-element";
 import { validateDataAttribute } from "./dataAttribute";
 
 type Headers = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -8,7 +9,7 @@ type Headers = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 export type RehypeSectionHeadingsOptions = {
 	sectionDataAttribute?: string;
 	maxHeadingRank?: 1 | 2 | 3 | 4 | 5 | 6;
-	wrap?: Partial<Record<Headers, string>>;
+	wrap?: Partial<Record<Headers, string | Element>>;
 };
 
 /**
@@ -69,7 +70,7 @@ function wrapWithSection(
 	currentHeadingIdx: number,
 	nextHeadingIdx: number,
 	headingIdAttributeName: string | undefined,
-	wrap: Partial<Record<Headers, string>>,
+	wrap: Partial<Record<Headers, string | Element>>,
 ) {
 	const headingElement = tree[currentHeadingIdx];
 	let properties = Object.create(null) as Properties;
@@ -82,15 +83,29 @@ function wrapWithSection(
 
 	if(headingElement?.type === "element" && Object.keys(wrap).includes(headingElement.tagName)) {
 		const wrapper = wrap[headingElement.tagName as Headers];
-		if(wrapper !== undefined && wrapper !== "") {
-			const wrapperElement: Element = {
-				type: "element",
-				tagName: wrapper,
-				children: [headingElement],
-				properties,
-			};
+		if(typeof wrapper === "string") {
+			if(wrapper !== "") {
+				const wrapperElement: Element = {
+					type: "element",
+					tagName: wrapper,
+					children: [headingElement],
+				};
 
-			tree.splice(currentHeadingIdx, 1, wrapperElement);
+				tree.splice(currentHeadingIdx, 1, wrapperElement);
+			}
+		} else {
+			if(isElement(wrapper)) {
+				const wrapperElement: Element = {
+					type: "element",
+					tagName: wrapper.tagName,
+					children: [headingElement],
+					properties: {
+						...wrapper.properties,
+					},
+				};
+
+				tree.splice(currentHeadingIdx, 1, wrapperElement);
+			}
 		}
 	}
 
