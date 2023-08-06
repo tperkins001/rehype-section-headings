@@ -1,6 +1,12 @@
 # 🎁 rehype-section-headings
 
-[![CI](https://github.com/tperkins001/rehype-section-headings/actions/workflows/ci.yml/badge.svg)](https://github.com/tperkins001/rehype-section-headings/actions/workflows/ci.yml)
+A fork of [Tim Perkins'](https://github.com/tperkins001) great rehype package
+[rehype-section-headings](https://github.com/tperkins001/rehype-section-headings).
+I added a few customizable options that make it more suitable for my personal
+use cases.
+
+[![CI](https://github.com/maxmmyron/rehype-section-headings/actions/workflows/ci.yml/badge.svg)](https://github.com/maxmmyron/rehype-section-headings/actions/workflows/ci.yml)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 **[rehype](https://github.com/rehypejs/rehype)** plugin to wrap all heading
