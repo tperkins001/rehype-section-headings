@@ -890,19 +890,13 @@ describe("with maxHeadingLevel", () => {
 });
 
 describe("with headingWrapElement", () => {
-	let processor: Processor<Root, Root, Root, string>;
-
-	beforeAll(() => {
-		processor = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { wrap: {
-				h1: "div",
-				h2: "aside",
-			})
-			.use(rehypeStringify);
-	});
-
 	test("wraps headings based on wrap option", () => {
+		// Arrange
+		const processorWithOption = rehype()
+			.use(rehypeParse, { fragment: true })
+			.use(rehypeSectionHeadings, { wrap: {h1: "div", h2: "aside"} })
+			.use(rehypeStringify);
+
 		// Arrange
 		// prettier-ignore
 		const original = toHtml(
@@ -927,13 +921,19 @@ describe("with headingWrapElement", () => {
 		);
 
 		// Act
-		processor.process(original, (_, actual) => {
+		processorWithOption.process(original, (_, actual) => {
 			// Assert
 			expect(actual?.value).toStrictEqual(expected);
 		});
 	});
 
-	test("does not wrap undefined levels", () => {
+	test("does not wrap unpsecified headings", () => {
+		// Arrange
+		const processorWithOption = rehype()
+			.use(rehypeParse, { fragment: true })
+			.use(rehypeSectionHeadings, { wrap: {h1: "div", h2: "aside"} })
+			.use(rehypeStringify);
+
 		// Arrange
 		// prettier-ignore
 		const original = toHtml(
@@ -964,7 +964,44 @@ describe("with headingWrapElement", () => {
 		);
 
 		// Act
-		processor.process(original, (_, actual) => {
+		processorWithOption.process(original, (_, actual) => {
+			// Assert
+			expect(actual?.value).toStrictEqual(expected);
+		});
+	});
+
+	test("does not wrap if property value is undefined or empty string", () => {
+		// Arrange
+		const processorWithOption = rehype()
+			.use(rehypeParse, { fragment: true })
+			.use(rehypeSectionHeadings, { wrap: {h1: undefined, h2: ""} })
+			.use(rehypeStringify);
+
+		// Arrange
+		// prettier-ignore
+		const original = toHtml(
+			[
+				h1("Heading h1"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+				h2("Heading h2"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+			],
+		);
+
+		// prettier-ignore
+		const expected = toHtml(
+			[
+				section(
+					[h1("Heading h1"),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
+				section(
+					[h2("Heading h2"),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
+			],
+		);
+
+		// Act
+		processorWithOption.process(original, (_, actual) => {
 			// Assert
 			expect(actual?.value).toStrictEqual(expected);
 		});
