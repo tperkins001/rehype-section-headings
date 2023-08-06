@@ -1,6 +1,6 @@
 {
   "name": "@maxmmyron/rehype-section-headings",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Wraps all heading elements and any following content with section tags",
   "keywords": [
     "unified",
