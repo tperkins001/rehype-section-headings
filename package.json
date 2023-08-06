@@ -1,6 +1,6 @@
 {
-	"name": "rehype-section-headings",
-	"version": "1.1.0",
+	"name": "@maxmmyron/rehype-section-headings",
+	"version": "1.2.0",
 	"description": "Wraps all heading elements and any following content with section tags",
 	"keywords": [
 		"unified",
@@ -11,15 +11,15 @@
 		"heading"
 	],
 	"author": {
-		"name": "Tim Perkins",
-		"email": "me@tperkins.com"
+		"name": "Max Myron",
+		"email": "max@mmyron.com"
 	},
 	"license": "MIT",
-	"homepage": "https://github.com/tperkins001/rehype-section-headings",
-	"bugs": "https://github.com/tperkins001/rehype-section-headings/issues",
+	"homepage": "https://github.com/maxmmyron/rehype-section-headings",
+	"bugs": "https://github.com/maxmmyron/rehype-section-headings/issues",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/tperkins001/rehype-section-headings.git"
+		"url": "https://github.com/maxmmyron/rehype-section-headings.git"
 	},
 	"type": "module",
 	"files": [
@@ -60,6 +60,6 @@
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
 		"build": "tsup",
-		"release": "pnpm build && changeset publish"
+		"release": "npm build && changeset publish"
 	}
 }
