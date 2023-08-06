@@ -20,6 +20,7 @@ const h6 = (...args) => h("h6", ...args);
 const p = (...args) => h("p", ...args);
 const span = (...args) => h("span", ...args);
 const div = (...args) => h("div", ...args);
+const aside = (...args) => h("aside", ...args);
 
 describe("without options", () => {
 	let processor: Processor<Root, Root, Root, string>;
@@ -894,11 +895,14 @@ describe("with headingWrapElement", () => {
 	beforeAll(() => {
 		processor = rehype()
 			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { headingWrapElement: "div" })
+			.use(rehypeSectionHeadings, { wrap: {
+				h1: "div",
+				h2: "aside",
+			})
 			.use(rehypeStringify);
 	});
 
-	test("wraps headings in divs", () => {
+	test("wraps headings based on wrap option", () => {
 		// Arrange
 		// prettier-ignore
 		const original = toHtml(
@@ -917,7 +921,7 @@ describe("with headingWrapElement", () => {
 					[div(h1("Heading h1")),
 					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
 				section(
-					[div(h2("Heading h2")),
+					[aside(h2("Heading h2")),
 					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
 			],
 		);
@@ -927,5 +931,42 @@ describe("with headingWrapElement", () => {
 			// Assert
 			expect(actual?.value).toStrictEqual(expected);
 		});
-	}
+	});
+
+	test("does not wrap undefined levels", () => {
+		// Arrange
+		// prettier-ignore
+		const original = toHtml(
+			[
+				h1("Heading h1"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+				h2("Heading h2"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+				h3("Heading h3"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+			],
+		);
+
+		// prettier-ignore
+		const expected = toHtml(
+			[
+				section(
+					[div(h1("Heading h1")),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
+				section(
+					[aside(h2("Heading h2")),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
+				section(
+					[h3("Heading h3"),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
+
+			],
+		);
+
+		// Act
+		processor.process(original, (_, actual) => {
+			// Assert
+			expect(actual?.value).toStrictEqual(expected);
+		});
+	});
 })
