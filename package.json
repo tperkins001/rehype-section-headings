@@ -35,6 +35,7 @@
 		}
 	},
 	"dependencies": {
+		"hast-util-is-element": "^3.0.0",
 		"unist-util-visit": "4.1.1"
 	},
 	"devDependencies": {
