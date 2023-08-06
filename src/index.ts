@@ -33,6 +33,7 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
 		validateDataAttribute(sectionDataAttribute);
 	}
 
+	// @ts-ignore
 	return (tree) => {
 		visit(tree, "element", (node, currentHeadingIdx, parent) => {
 			if (!isHeadingNode(node.tagName, maxHeadingRank) || currentHeadingIdx === null || parent === null) return;
