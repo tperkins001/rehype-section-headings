@@ -60,6 +60,6 @@
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
 		"build": "tsup",
-		"release": "npm build && changeset publish"
+		"release": "npm run build && changeset publish"
 	}
 }
