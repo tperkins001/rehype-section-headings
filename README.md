@@ -1,4 +1,4 @@
-# 🎁 rehype-section-headings
+# 🎁 @maxmmyron/rehype-section-headings
 
 A fork of [Tim Perkins'](https://github.com/tperkins001) great rehype package
 [rehype-section-headings](https://github.com/tperkins001/rehype-section-headings).
@@ -18,28 +18,28 @@ elements and any following content with `<section>` tags
 - [API](#api)
   - [options](#options)
     - [options.sectionDataAttribute](#optionsheadingiddataattribute)
-      - [options.maxHeadingLevel](#optionsmaxheadinglevel)
-      - [options.wrap](#optionswrap)
+    - [options.maxHeadingLevel](#optionsmaxheadinglevel)
+    - [options.wrap](#optionswrap)
 - [License](#license)
 
 ## Installation
 
 ```bash
 # npm
-npm install rehype-section-headings
+npm install @maxmmyron/rehype-section-headings
 
 # yarn
-yarn add rehype-section-headings
+yarn add @maxmmyron/rehype-section-headings
 
 # pnpm
-pnpm add rehype-section-headings
+pnpm add @maxmmyron/rehype-section-headings
 ```
 
 ## Usage
 
 ```js
 import rehype from "rehype";
-import rehypeSectionHeadings from "rehype-section-headings";
+import rehypeSectionHeadings from "@maxmmyron/rehype-section-headings";
 
 rehype().use(rehypeSectionHeadings).process(/* html */);
 ```
@@ -50,7 +50,7 @@ The following script..
 
 ```js
 import rehype from "rehype";
-import rehypeSectionHeadings from "rehype-section-headings";
+import rehypeSectionHeadings from "@maxmmyron/rehype-section-headings";
 
 const html = `
 <h1>Heading level 1</h1>
@@ -95,7 +95,7 @@ attribute.
 
 ```js
 import rehype from "rehype";
-import rehypeSectionHeadings from "rehype-section-headings";
+import rehypeSectionHeadings from "@maxmmyron/rehype-section-headings";
 
 const html = `
 <h1 id="heading-level-1">Heading level 1</h1>
@@ -138,7 +138,7 @@ within their corresponding `<h2>` section tag:
 
 ```js
 import rehype from "rehype";
-import rehypeSectionHeadings from "rehype-section-headings";
+import rehypeSectionHeadings from "@maxmmyron/rehype-section-headings";
 
 const html = `
 <h1>Heading level 1</h1>
@@ -178,17 +178,15 @@ rehype().use(rehypeSectionHeadings, { maxHeadingLevel: 2 }).process(html);
 #### options.wrap
 
 Type:
-`{ h1: string, h2: string, h3: string, h4: string, h5: string, h6: string }`.
-Default:
-`{ h1: "section", h2: "section", h3: "section", h4: "section", h5: "section", h6: "section" }`.
-Default: `{}`.
+`Partial<Record<"h1" | "h2" | "h3" | "h4" | "h5" | "h6", string | Hast.Element>>`. Default: `{}`.
 
-The element to wrap each header in. Useful as a jumping-off point when you need
+An optional element to wrap a particular header in. Useful as a jumping-off point when you need
 to insert extra content with the header, while keeping the header itself as the
-first child of the section.
+first child of the section. Can be specified as a string (i.e. `"div"` or `"aside"`), or as a hast element (which provides more granular element property control).
 
 ```js
 import rehype from "rehype";
+import rehypeSectionHeadings from "@maxmmyron/rehype-section-headings";
 
 const html = `
 <h1>Heading level 1</h1>
@@ -224,6 +222,7 @@ describe the wrapping element:
 
 ```js
 import rehype from "rehype";
+import rehypeSectionHeadings from "@maxmmyron/rehype-section-headings";
 
 const html = `
 <h1>Heading level 1</h1>
