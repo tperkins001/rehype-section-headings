@@ -25,6 +25,11 @@ export type RehypeSectionHeadingsOptions = {
  * @param options.sectionDataAttribute If any heading elements have an `id` attribute, this plugin will take the
  * data-* attribute name specified here and add it against any `<section>` tags.
  * The value of the data-* attribute will be the same as the heading elements `id` attribute.
+ * @param options.maxHeadingRank The maximum heading rank to wrap with `<section>` tags.
+ * For example, if `maxHeadingRank` is set to `3`, then only `<h1>`, `<h2>` and `<h3>` elements will be wrapped.
+ * @param options.wrap An object that allows you to specify a custom wrapper element for each heading element.
+ * For example, if you want to wrap all `<h1>` elements with a `<div>` tag, you can do so by specifying `{ h1: "div" }`.
+ * If you want to add additional properties to the wrapper element, you can do so by specifying a hast Element object.
  *
  * @returns tree with all heading elements wrapped with a `<section>` tag
  */
