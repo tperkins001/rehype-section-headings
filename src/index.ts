@@ -3,10 +3,12 @@ import type { Element, ElementContent, Properties, Root, RootContent } from "has
 import { visit } from "unist-util-visit";
 import { validateDataAttribute } from "./dataAttribute";
 
+type Headers = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 export type RehypeSectionHeadingsOptions = {
 	sectionDataAttribute?: string;
 	maxHeadingRank?: 1 | 2 | 3 | 4 | 5 | 6;
+	wrap?: Partial<Record<Headers, string>>;
 };
 
 /**
@@ -24,6 +26,7 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
 ) => {
 	const sectionDataAttribute = options.sectionDataAttribute;
 	const maxHeadingRank = options.maxHeadingRank ?? 6;
+	const wrap = options.wrap ?? {};
 
 	if (sectionDataAttribute !== undefined) {
 		validateDataAttribute(sectionDataAttribute);
@@ -51,12 +54,12 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
 			while (++nextHeadingIdx < parent.children.length) {
 				const nextNode = parent.children[nextHeadingIdx];
 				if (nextNode?.type === "element" && isHeadingNode(nextNode.tagName, maxHeadingRank)) {
-					wrapWithSection(parent.children, currentHeadingIdx, nextHeadingIdx, sectionDataAttribute);
+					wrapWithSection(parent.children, currentHeadingIdx, nextHeadingIdx, sectionDataAttribute, wrap);
 					return;
 				}
 			}
 
-			wrapWithSection(parent.children, currentHeadingIdx, nextHeadingIdx, sectionDataAttribute);
+			wrapWithSection(parent.children, currentHeadingIdx, nextHeadingIdx, sectionDataAttribute, wrap);
 		});
 	};
 };
@@ -66,6 +69,7 @@ function wrapWithSection(
 	currentHeadingIdx: number,
 	nextHeadingIdx: number,
 	headingIdAttributeName: string | undefined,
+	wrap: Partial<Record<Headers, string>>,
 ) {
 	const headingElement = tree[currentHeadingIdx];
 	let properties = Object.create(null) as Properties;
@@ -76,7 +80,22 @@ function wrapWithSection(
 		};
 	}
 
+	if(headingElement?.type === "element" && Object.keys(wrap).includes(headingElement.tagName)) {
+		const wrapper = wrap[headingElement.tagName as Headers];
+		if(wrapper !== undefined && wrapper !== "") {
+			const wrapperElement: Element = {
+				type: "element",
+				tagName: wrapper,
+				children: [headingElement],
+				properties,
+			};
+
+			tree.splice(currentHeadingIdx, 1, wrapperElement);
+		}
+	}
+
 	const sectionContents = tree.slice(currentHeadingIdx, nextHeadingIdx) as ElementContent[];
+
 	const section: Element = {
 		type: "element",
 		tagName: "section",
