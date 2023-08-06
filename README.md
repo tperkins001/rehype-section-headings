@@ -18,6 +18,8 @@ elements and any following content with `<section>` tags
 - [API](#api)
   - [options](#options)
     - [options.sectionDataAttribute](#optionsheadingiddataattribute)
+      - [options.maxHeadingLevel](#optionsmaxheadinglevel)
+      - [options.wrap](#optionswrap)
 - [License](#license)
 
 ## Installation
