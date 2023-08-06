@@ -19,8 +19,8 @@ jobs:
    - name: Checkout
      uses: actions/checkout@v3
 
-   - name: Setup pnpm
-     uses: pnpm/action-setup@v2
+   - name: Setup npm
+     uses: npm/action-setup@v2
      with:
       version: 7
       run_install: false
@@ -29,16 +29,16 @@ jobs:
      uses: actions/setup-node@v3
      with:
       node-version: 18.x
-      cache: pnpm
+      cache: npm
 
    - name: Install dependencies
-     run: pnpm install --frozen-lockfile
+     run: npm install --frozen-lockfile
 
    - name: Build
-     run: pnpm build
+     run: npm build
 
    - name: Lint
-     run: pnpm lint
+     run: npm lint
 
    - name: Test
-     run: pnpm coverage
+     run: npm coverage

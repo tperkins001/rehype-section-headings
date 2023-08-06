@@ -23,8 +23,8 @@ jobs:
      with:
       fetch-depth: 0
 
-   - name: Setup pnpm
-     uses: pnpm/action-setup@v2
+   - name: Setup npm
+     uses: npm/action-setup@v2
      with:
       version: 7
       run_install: false
@@ -33,16 +33,16 @@ jobs:
      uses: actions/setup-node@v3
      with:
       node-version: 18.x
-      cache: pnpm
+      cache: npm
 
    - name: Install dependencies
-     run: pnpm install --frozen-lockfile
+     run: npm install --frozen-lockfile
 
    - name: Create Release Pull Request or Publish to npm
      id: changesets
      uses: changesets/action@v1
      with:
-      publish: pnpm release
+      publish: npm release
      env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
