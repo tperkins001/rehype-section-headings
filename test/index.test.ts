@@ -782,3 +782,107 @@ describe("data attribute validation", () => {
 		);
 	});
 });
+
+describe("with maxHeadingLevel", () => {
+	let processor: Processor<Root, Root, Root, string>;
+
+	beforeAll(() => {
+		processor = rehype()
+			.use(rehypeParse, { fragment: true })
+			.use(rehypeSectionHeadings, { maxHeadingRank: 2 })
+			.use(rehypeStringify);
+	});
+
+	test("wraps normally", () => {
+		// Arrange
+		// prettier-ignore
+		const original = toHtml(
+			[
+				h1("Heaidng h1"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+				h2("Heading h2"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+			],
+		);
+
+		// prettier-ignore
+		const expected = toHtml(
+			[
+				section(
+					[h1("Heaidng h1"),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
+				section(
+					[h2("Heading h2"),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit")]),
+			],
+		);
+
+		// Act
+		processor.process(original, (_, actual) => {
+			// Assert
+			expect(actual?.value).toStrictEqual(expected);
+		});
+	});
+
+	test("does not wrap if maxHeadingRank is lower than the heading rank", () => {
+		// Arrange
+		// prettier-ignore
+		const original = toHtml(
+			[
+				h3("Heaidng h3"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+			],
+		);
+
+		// prettier-ignore
+		const expected = toHtml(
+			[
+				h3("Heaidng h3"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+			],
+		);
+
+		// Act
+		processor.process(original, (_, actual) => {
+			// Assert
+			expect(actual?.value).toStrictEqual(expected);
+		});
+	});
+
+	test("wraps higher headings within parent section", () => {
+		// Arrange
+		// prettier-ignore
+		const original = toHtml(
+			[
+				h1("Heading h1"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+				h2("Heading h2"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+				h3("Heading h3"),
+				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+			],
+		);
+
+		// prettier-ignore
+		const expected = toHtml(
+			[
+				section(
+					[h1("Heading h1"),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),]),
+				section(
+					[h2("Heading h2"),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
+					h3("Heading h3"),
+					p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),]),
+			],
+		);
+
+		// Act
+		processor.process(original, (_, actual) => {
+			// Assert
+			expect(actual?.value).toStrictEqual(expected);
+		});
+	})
+});
