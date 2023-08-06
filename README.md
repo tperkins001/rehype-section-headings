@@ -167,6 +167,49 @@ rehype().use(rehypeSectionHeadings, { maxHeadingLevel: 2 })
 </section>
 ```
 
+#### options.wrap
+
+Type:
+`{ h1: string, h2: string, h3: string, h4: string, h5: string, h6: string }`.
+Default:
+`{ h1: "section", h2: "section", h3: "section", h4: "section", h5: "section", h6: "section" }`.
+Default: `{}`.
+
+The element to wrap each header in. Useful as a jumping-off point when you need
+to insert extra content with the header, while keeping the header itself as the
+first child of the section.
+
+```js
+import rehype from "rehype";
+
+const html = `
+<h1>Heading level 1</h1>
+<p>Hey, World!</p>
+<p>This is a bit of content.</p>
+<h2>Heading level 2</h2>
+<p>What is the meaning of life?</p>
+`;
+
+rehype().use(rehypeSectionHeadings, { wrap: { h1: "aside" } })
+  .process(html);
+```
+
+...results in the following output
+
+```html
+<section>
+	<aside>
+		<h1>Heading level 1</h1>
+	</aside>
+	<p>Hey, World!</p>
+	<p>This is a bit of content.</p>
+</section>
+<section>
+	<h2>Heading level 2</h2>
+	<p>What is the meaning of life?</p>
+</section>
+```
+
 ### License
 
 [MIT](LICENSE)
