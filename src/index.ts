@@ -3,8 +3,10 @@ import type { Element, ElementContent, Properties, Root, RootContent } from "has
 import { visit } from "unist-util-visit";
 import { validateDataAttribute } from "./dataAttribute";
 
+
 export type RehypeSectionHeadingsOptions = {
 	sectionDataAttribute?: string;
+	maxHeadingRank?: 1 | 2 | 3 | 4 | 5 | 6;
 };
 
 /**
@@ -21,6 +23,7 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
 	options: RehypeSectionHeadingsOptions = {},
 ) => {
 	const sectionDataAttribute = options.sectionDataAttribute;
+	const maxHeadingRank = options.maxHeadingRank ?? 6;
 
 	if (sectionDataAttribute !== undefined) {
 		validateDataAttribute(sectionDataAttribute);
@@ -28,7 +31,7 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
 
 	return (tree) => {
 		visit(tree, "element", (node, currentHeadingIdx, parent) => {
-			if (!isHeadingNode(node.tagName) || currentHeadingIdx === null || parent === null) return;
+			if (!isHeadingNode(node.tagName, maxHeadingRank) || currentHeadingIdx === null || parent === null) return;
 
 			// Heading already surrounded by section
 			// Apply sectionDataAttribute but don't wrap with additional `<section>` tags
@@ -47,7 +50,7 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
 			let nextHeadingIdx = currentHeadingIdx;
 			while (++nextHeadingIdx < parent.children.length) {
 				const nextNode = parent.children[nextHeadingIdx];
-				if (nextNode?.type === "element" && isHeadingNode(nextNode.tagName)) {
+				if (nextNode?.type === "element" && isHeadingNode(nextNode.tagName, maxHeadingRank)) {
 					wrapWithSection(parent.children, currentHeadingIdx, nextHeadingIdx, sectionDataAttribute);
 					return;
 				}
@@ -84,8 +87,8 @@ function wrapWithSection(
 	tree.splice(currentHeadingIdx, sectionContents.length, section);
 }
 
-function isHeadingNode(tagName: string): boolean {
-	return ["h1", "h2", "h3", "h4", "h5", "h6"].includes(tagName);
+function isHeadingNode(tagName: string, maxHeadingRank: 1 | 2 | 3 | 4 | 5 | 6 = 6): boolean {
+	return Array.from({length: maxHeadingRank}).map((_, i) => `h${i + 1}`).includes(tagName);
 }
 
 function getIdFromElement(element: Element): string | undefined {
