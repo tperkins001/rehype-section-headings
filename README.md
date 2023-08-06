@@ -210,6 +210,49 @@ rehype().use(rehypeSectionHeadings, { wrap: { h1: "aside" } })
 </section>
 ```
 
+You can also use [hast elements](https://github.com/syntax-tree/hast#element) to
+describe the wrapping element:
+
+```js
+import rehype from "rehype";
+
+const html = `
+<h1>Heading level 1</h1>
+<p>Hey, World!</p>
+<p>This is a bit of content.</p>
+<h2>Heading level 2</h2>
+<p>What is the meaning of life?</p>
+`;
+
+rehype().use(rehypeSectionHeadings, {
+  wrap: {
+    h1: {
+      type: "element",
+      tagName: "aside",
+      properties: { className: ["aside"] },
+      children: [],
+    },
+  },
+})
+  .process(html);
+```
+
+...results in the following output
+
+```html
+<section>
+	<aside class="aside">
+		<h1>Heading level 1</h1>
+	</aside>
+	<p>Hey, World!</p>
+	<p>This is a bit of content.</p>
+</section>
+<section>
+	<h2>Heading level 2</h2>
+	<p>What is the meaning of life?</p>
+</section>
+```
+
 ### License
 
 [MIT](LICENSE)
