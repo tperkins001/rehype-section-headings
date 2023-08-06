@@ -23,27 +23,27 @@ const div = (...args) => h("div", ...args);
 const aside = (...args) => h("aside", ...args);
 
 describe("without options", () => {
-	let processor: Processor<Root, Root, Root, string>;
+  let processor: Processor<Root, Root, Root, string>;
 
-	beforeAll(() => {
-		processor = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings)
-			.use(rehypeStringify);
-	});
+  beforeAll(() => {
+    processor = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings)
+      .use(rehypeStringify);
+  });
 
-	test("wrap single heading", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap single heading", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h2("Hello, World"),
@@ -51,17 +51,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wrap multiple headings", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap multiple headings", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -70,8 +70,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h2("Hello, World"),
@@ -82,17 +82,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wrap multiple headings (different heading levels)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap multiple headings (different heading levels)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heading 1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -109,8 +109,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h1("Heading 1"),
@@ -133,17 +133,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("no wrap if no headings", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("no wrap if no headings", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				main(
 					p("Hello, World"),
@@ -153,8 +153,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				main(
 					p("Hello, World"),
@@ -164,17 +164,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("no section wrap if document has existing section (no headings)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("no section wrap if document has existing section (no headings)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				section([
 					p("Hello, World"),
@@ -184,8 +184,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section([
 					p("Hello, World"),
@@ -195,17 +195,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("no section wrap if document has existing section (and contains h1, h2 etc.)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("no section wrap if document has existing section (and contains h1, h2 etc.)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				section([
 					h1("Hello, World"),
@@ -218,8 +218,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section([
 					h1("Hello, World"),
@@ -232,17 +232,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wrap heading if last element in fragment", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap heading if last element in fragment", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
 				p("sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"),
@@ -250,8 +250,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
 				p("sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"),
@@ -261,24 +261,24 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wrap heading if only element in fragment", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap heading if only element in fragment", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section([
 					h2("Hello, World")
@@ -286,17 +286,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wrap multiple headings (maintain attributes)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap multiple headings (maintain attributes)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2({id: "lorem-ipsum", class: "heading"}, "Hello, World"),
 				p({class: "paragraph"}, "Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -305,8 +305,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h2({id: "lorem-ipsum", class: "heading"}, "Hello, World"),
@@ -317,17 +317,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("existing section attributes are maintained (and contains h1, h2 etc.)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("existing section attributes are maintained (and contains h1, h2 etc.)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				section({id: "main-section"}, [
 					h1({class: "heading"}, "Heading 1"),
@@ -342,8 +342,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section({id: "main-section"}, [
 					h1({class: "heading"}, "Heading 1"),
@@ -358,17 +358,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("existing section attributes are maintained (no headings)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("existing section attributes are maintained (no headings)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				section({id: "main-section"}, [
 					p({class: "paragraph"}, "Hello, World"),
@@ -378,8 +378,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section({id: "main-section"}, [
 					p({class: "paragraph"}, "Hello, World"),
@@ -389,17 +389,17 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("existing section (nested)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("existing section (nested)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				main([
 					section({id: "main-section"}, [
@@ -412,8 +412,8 @@ describe("without options", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				main([
 					section({id: "main-section"}, [
@@ -426,36 +426,36 @@ describe("without options", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 });
 
 describe("with sectionDataAttribute", () => {
-	let processor: Processor<Root, Root, Root, string>;
+  let processor: Processor<Root, Root, Root, string>;
 
-	beforeAll(() => {
-		processor = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { sectionDataAttribute: "data-heading-id" })
-			.use(rehypeStringify);
-	});
+  beforeAll(() => {
+    processor = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { sectionDataAttribute: "data-heading-id" })
+      .use(rehypeStringify);
+  });
 
-	test("wrap heading (with id's)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap heading (with id's)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2({id: 'hello-world'}, "Hello, World"),
 				p({id: 'lorem-ipsum'}, "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section({"data-heading-id": "hello-world"},
 					[h2({id: 'hello-world'}, "Hello, World"),
@@ -463,25 +463,25 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wrap heading (without id's)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap heading (without id's)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p({id: 'lorem-ipsum'}, "Lorem ipsum dolor sit amet, consectetur adipiscing elit")
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h2("Hello, World"),
@@ -489,17 +489,17 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wrap multiple headings (with id's)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap multiple headings (with id's)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2({id: 'hello-world'}, "Hello, World"),
 				p({id: 'lorem-ipsum'}, "Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -508,8 +508,8 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section({"data-heading-id": "hello-world"},
 					[h2({id: 'hello-world'}, "Hello, World"),
@@ -520,17 +520,17 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wrap multiple headings (without id's)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap multiple headings (without id's)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p({id: 'lorem-ipsum'}, "Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -539,8 +539,8 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h2("Hello, World"),
@@ -551,17 +551,17 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wrap multiple headings (with attributes)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wrap multiple headings (with attributes)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2({ id: "heading-id", class: "hello" }, "Hello, World"),
 				p({id: 'lorem-ipsum'}, "Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -570,8 +570,8 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section({"data-heading-id": "heading-id"},
 					[h2({ id: "heading-id", class: "hello" }, "Hello, World"),
@@ -582,17 +582,17 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("existing sections (heading without id)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("existing sections (heading without id)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				section(
 					[h2("Hello, World"),
@@ -603,8 +603,8 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h2("Hello, World"),
@@ -615,17 +615,17 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("existing sections (heading with id)", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("existing sections (heading with id)", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				section(
 					[h2({id: "hello-world"}, "Hello, World"),
@@ -636,8 +636,8 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section({"data-heading-id": "hello-world"},
 					[h2({id: "hello-world"}, "Hello, World"),
@@ -648,157 +648,157 @@ describe("with sectionDataAttribute", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 });
 
 describe("data attribute validation", () => {
-	test("sectionDataAttribute should be 'string'", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			// @ts-expect-error we provide the wrong type here to validate we check type
-			.use(rehypeSectionHeadings, { sectionDataAttribute: 1 })
-			.use(rehypeStringify);
+  test("sectionDataAttribute should be 'string'", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      // @ts-expect-error we provide the wrong type here to validate we check type
+      .use(rehypeSectionHeadings, { sectionDataAttribute: 1 })
+      .use(rehypeStringify);
 
-		// prettier-ignore
-		const original = toHtml(
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
 			],
 		);
 
-		// Act
-		expect(() => processorWithOption.process(original)).toThrowError(
-			/^sectionDataAttribute must be of type 'string'$/,
-		);
-	});
+    // Act
+    expect(() => processorWithOption.process(original)).toThrowError(
+      /^sectionDataAttribute must be of type 'string'$/
+    );
+  });
 
-	test("sectionDataAttribute should fail if no value is provided", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { sectionDataAttribute: "" })
-			.use(rehypeStringify);
+  test("sectionDataAttribute should fail if no value is provided", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { sectionDataAttribute: "" })
+      .use(rehypeStringify);
 
-		// prettier-ignore
-		const original = toHtml(
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
 			],
 		);
 
-		// Act
-		expect(() => processorWithOption.process(original)).toThrowError(
-			"sectionDataAttribute '' is an invalid data-* attribute",
-		);
-	});
+    // Act
+    expect(() => processorWithOption.process(original)).toThrowError(
+      "sectionDataAttribute '' is an invalid data-* attribute"
+    );
+  });
 
-	test("sectionDataAttribute should fail if no hyphen exists after 'data'", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { sectionDataAttribute: "data" })
-			.use(rehypeStringify);
+  test("sectionDataAttribute should fail if no hyphen exists after 'data'", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { sectionDataAttribute: "data" })
+      .use(rehypeStringify);
 
-		// prettier-ignore
-		const original = toHtml(
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
 			],
 		);
 
-		// Act
-		expect(() => processorWithOption.process(original)).toThrowError(
-			"sectionDataAttribute 'data' is an invalid data-* attribute",
-		);
-	});
+    // Act
+    expect(() => processorWithOption.process(original)).toThrowError(
+      "sectionDataAttribute 'data' is an invalid data-* attribute"
+    );
+  });
 
-	test("sectionDataAttribute should fail if no attribute name provided after data-*", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { sectionDataAttribute: "data-" })
-			.use(rehypeStringify);
+  test("sectionDataAttribute should fail if no attribute name provided after data-*", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { sectionDataAttribute: "data-" })
+      .use(rehypeStringify);
 
-		// prettier-ignore
-		const original = toHtml(
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
 			],
 		);
 
-		// Act
-		expect(() => processorWithOption.process(original)).toThrowError(
-			"sectionDataAttribute 'data-' is an invalid data-* attribute",
-		);
-	});
+    // Act
+    expect(() => processorWithOption.process(original)).toThrowError(
+      "sectionDataAttribute 'data-' is an invalid data-* attribute"
+    );
+  });
 
-	test("sectionDataAttribute should fail if attribute name contains a semi-colon", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { sectionDataAttribute: "data-ab;c" })
-			.use(rehypeStringify);
+  test("sectionDataAttribute should fail if attribute name contains a semi-colon", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { sectionDataAttribute: "data-ab;c" })
+      .use(rehypeStringify);
 
-		// prettier-ignore
-		const original = toHtml(
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
 			],
 		);
 
-		// Act
-		expect(() => processorWithOption.process(original)).toThrowError(
-			"sectionDataAttribute 'data-ab;c' is an invalid data-* attribute",
-		);
-	});
+    // Act
+    expect(() => processorWithOption.process(original)).toThrowError(
+      "sectionDataAttribute 'data-ab;c' is an invalid data-* attribute"
+    );
+  });
 
-	test("sectionDataAttribute should fail if attribute name contains capital letters", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { sectionDataAttribute: "data-ABC" })
-			.use(rehypeStringify);
+  test("sectionDataAttribute should fail if attribute name contains capital letters", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { sectionDataAttribute: "data-ABC" })
+      .use(rehypeStringify);
 
-		// prettier-ignore
-		const original = toHtml(
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h2("Hello, World"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
 			],
 		);
 
-		// Act
-		expect(() => processorWithOption.process(original)).toThrowError(
-			"sectionDataAttribute 'data-ABC' is an invalid data-* attribute",
-		);
-	});
+    // Act
+    expect(() => processorWithOption.process(original)).toThrowError(
+      "sectionDataAttribute 'data-ABC' is an invalid data-* attribute"
+    );
+  });
 });
 
 describe("with maxHeadingLevel", () => {
-	let processor: Processor<Root, Root, Root, string>;
+  let processor: Processor<Root, Root, Root, string>;
 
-	beforeAll(() => {
-		processor = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { maxHeadingRank: 2 })
-			.use(rehypeStringify);
-	});
+  beforeAll(() => {
+    processor = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { maxHeadingRank: 2 })
+      .use(rehypeStringify);
+  });
 
-	test("wraps normally", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wraps normally", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heaidng h1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -807,8 +807,8 @@ describe("with maxHeadingLevel", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h1("Heaidng h1"),
@@ -819,17 +819,17 @@ describe("with maxHeadingLevel", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("does not wrap if maxHeadingRank is lower than the heading rank", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("does not wrap if maxHeadingRank is lower than the heading rank", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h3("Heaidng h3"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -837,8 +837,8 @@ describe("with maxHeadingLevel", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				h3("Heaidng h3"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -846,17 +846,17 @@ describe("with maxHeadingLevel", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wraps higher headings within parent section", () => {
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+  test("wraps higher headings within parent section", () => {
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heading h1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -867,8 +867,8 @@ describe("with maxHeadingLevel", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h1("Heading h1"),
@@ -881,25 +881,25 @@ describe("with maxHeadingLevel", () => {
 			],
 		);
 
-		// Act
-		processor.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	})
+    // Act
+    processor.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 });
 
 describe("with headingWrapElement", () => {
-	test("wraps headings based on wrap option", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { wrap: {h1: "div", h2: "aside"} })
-			.use(rehypeStringify);
+  test("wraps headings based on wrap option", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { wrap: { h1: "div", h2: "aside" } })
+      .use(rehypeStringify);
 
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heading h1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -908,8 +908,8 @@ describe("with headingWrapElement", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[div(h1("Heading h1")),
@@ -920,23 +920,23 @@ describe("with headingWrapElement", () => {
 			],
 		);
 
-		// Act
-		processorWithOption.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processorWithOption.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("does not wrap unpsecified headings", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { wrap: {h1: "div", h2: "aside"} })
-			.use(rehypeStringify);
+  test("does not wrap unpsecified headings", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { wrap: { h1: "div", h2: "aside" } })
+      .use(rehypeStringify);
 
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heading h1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -947,8 +947,8 @@ describe("with headingWrapElement", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[div(h1("Heading h1")),
@@ -963,23 +963,23 @@ describe("with headingWrapElement", () => {
 			],
 		);
 
-		// Act
-		processorWithOption.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processorWithOption.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("does not wrap if property value is undefined or empty string", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { wrap: {h1: undefined, h2: ""} })
-			.use(rehypeStringify);
+  test("does not wrap if property value is undefined or empty string", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { wrap: { h1: undefined, h2: "" } })
+      .use(rehypeStringify);
 
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heading h1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -988,8 +988,8 @@ describe("with headingWrapElement", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h1("Heading h1"),
@@ -1000,25 +1000,33 @@ describe("with headingWrapElement", () => {
 			],
 		);
 
-		// Act
-		processorWithOption.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processorWithOption.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("works with hast Node as wrap value", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, { wrap: {h1: {
-				type: "element", tagName: "div", properties: {className: ["header-wrapper"]}, children: []
-			}, h2: "aside"} })
-			.use(rehypeStringify);
+  test("works with hast Node as wrap value", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, {
+        wrap: {
+          h1: {
+            type: "element",
+            tagName: "div",
+            properties: { className: ["header-wrapper"] },
+            children: [],
+          },
+          h2: "aside",
+        },
+      })
+      .use(rehypeStringify);
 
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heading h1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -1027,8 +1035,8 @@ describe("with headingWrapElement", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[div({className: ["header-wrapper"]}, h1("Heading h1")),
@@ -1039,10 +1047,10 @@ describe("with headingWrapElement", () => {
 			],
 		);
 
-		// Act
-		processorWithOption.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
-})
+    // Act
+    processorWithOption.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
+});

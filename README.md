@@ -67,13 +67,13 @@ rehype().use(rehypeSectionHeadings).process(html);
 
 ```html
 <section>
-	<h1>Heading level 1</h1>
-	<p>Hey, World!</p>
-	<span>This shouldn't <i>span</i> the whole page</span>
+  <h1>Heading level 1</h1>
+  <p>Hey, World!</p>
+  <span>This shouldn't <i>span</i> the whole page</span>
 </section>
 <section>
-	<h2>Heading level 2</h2>
-	<p>Hello again, world!</p>
+  <h2>Heading level 2</h2>
+  <p>Hello again, world!</p>
 </section>
 ```
 
@@ -105,7 +105,8 @@ const html = `
 <p>Hello again, world!</p>
 `;
 
-rehype().use(rehypeSectionHeadings, { sectionDataAttribute: "data-heading-id" })
+rehype()
+  .use(rehypeSectionHeadings, { sectionDataAttribute: "data-heading-id" })
   .process(html);
 ```
 
@@ -113,13 +114,13 @@ rehype().use(rehypeSectionHeadings, { sectionDataAttribute: "data-heading-id" })
 
 ```html
 <section data-heading-id="heading-level-1">
-	<h1 id="heading-level-1">Heading level 1</h1>
-	<p>Hey, World!</p>
-	<span>This shouldn't <i>span</i> the whole page</span>
+  <h1 id="heading-level-1">Heading level 1</h1>
+  <p>Hey, World!</p>
+  <span>This shouldn't <i>span</i> the whole page</span>
 </section>
 <section data-heading-id="heading-level-2">
-	<h2 id="heading-level-2">Heading level 2</h2>
-	<p>Hello again, world!</p>
+  <h2 id="heading-level-2">Heading level 2</h2>
+  <p>Hello again, world!</p>
 </section>
 ```
 
@@ -151,27 +152,26 @@ const html = `
 <p>A bit more content</p>
 `;
 
-rehype().use(rehypeSectionHeadings, { maxHeadingLevel: 2 })
-  .process(html);
+rehype().use(rehypeSectionHeadings, { maxHeadingLevel: 2 }).process(html);
 ```
 
 ...results in the following output
 
 ```html
 <section>
-	<h1>Heading level 1</h1>
-	<p>Hey, World!</p>
-	<p>This is a bit of content.</p>
+  <h1>Heading level 1</h1>
+  <p>Hey, World!</p>
+  <p>This is a bit of content.</p>
 </section>
 <section>
-	<h2>Heading level 2</h2>
-	<p>What is the meaning of life?</p>
-	<h3>Heading level 3</h3>
-	<p>Lorem ipsum means nothing to me.</p>
+  <h2>Heading level 2</h2>
+  <p>What is the meaning of life?</p>
+  <h3>Heading level 3</h3>
+  <p>Lorem ipsum means nothing to me.</p>
 </section>
 <section>
-	<h2>Heading level 2 (again)</h2>
-	<p>A bit more content</p>
+  <h2>Heading level 2 (again)</h2>
+  <p>A bit more content</p>
 </section>
 ```
 
@@ -198,7 +198,8 @@ const html = `
 <p>What is the meaning of life?</p>
 `;
 
-rehype().use(rehypeSectionHeadings, { wrap: { h1: "aside" } })
+rehype()
+  .use(rehypeSectionHeadings, { wrap: { h1: "aside" } })
   .process(html);
 ```
 
@@ -206,15 +207,15 @@ rehype().use(rehypeSectionHeadings, { wrap: { h1: "aside" } })
 
 ```html
 <section>
-	<aside>
-		<h1>Heading level 1</h1>
-	</aside>
-	<p>Hey, World!</p>
-	<p>This is a bit of content.</p>
+  <aside>
+    <h1>Heading level 1</h1>
+  </aside>
+  <p>Hey, World!</p>
+  <p>This is a bit of content.</p>
 </section>
 <section>
-	<h2>Heading level 2</h2>
-	<p>What is the meaning of life?</p>
+  <h2>Heading level 2</h2>
+  <p>What is the meaning of life?</p>
 </section>
 ```
 
@@ -232,16 +233,17 @@ const html = `
 <p>What is the meaning of life?</p>
 `;
 
-rehype().use(rehypeSectionHeadings, {
-  wrap: {
-    h1: {
-      type: "element",
-      tagName: "aside",
-      properties: { className: ["aside"] },
-      children: [],
+rehype()
+  .use(rehypeSectionHeadings, {
+    wrap: {
+      h1: {
+        type: "element",
+        tagName: "aside",
+        properties: { className: ["aside"] },
+        children: [],
+      },
     },
-  },
-})
+  })
   .process(html);
 ```
 
@@ -249,15 +251,15 @@ rehype().use(rehypeSectionHeadings, {
 
 ```html
 <section>
-	<aside class="aside">
-		<h1>Heading level 1</h1>
-	</aside>
-	<p>Hey, World!</p>
-	<p>This is a bit of content.</p>
+  <aside class="aside">
+    <h1>Heading level 1</h1>
+  </aside>
+  <p>Hey, World!</p>
+  <p>This is a bit of content.</p>
 </section>
 <section>
-	<h2>Heading level 2</h2>
-	<p>What is the meaning of life?</p>
+  <h2>Heading level 2</h2>
+  <p>What is the meaning of life?</p>
 </section>
 ```
 

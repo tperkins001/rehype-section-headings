@@ -1,65 +1,65 @@
 {
-	"name": "@maxmmyron/rehype-section-headings",
-	"version": "1.2.0",
-	"description": "Wraps all heading elements and any following content with section tags",
-	"keywords": [
-		"unified",
-		"rehype",
-		"rehype-plugin",
-		"html",
-		"section",
-		"heading"
-	],
-	"author": {
-		"name": "Max Myron",
-		"email": "max@mmyron.com"
-	},
-	"license": "MIT",
-	"homepage": "https://github.com/maxmmyron/rehype-section-headings",
-	"bugs": "https://github.com/maxmmyron/rehype-section-headings/issues",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/maxmmyron/rehype-section-headings.git"
-	},
-	"type": "module",
-	"files": [
-		"dist"
-	],
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"import": "./dist/index.js",
-			"require": "./dist/index.cjs"
-		}
-	},
-	"dependencies": {
-		"hast-util-is-element": "^3.0.0",
-		"unist-util-visit": "4.1.1"
-	},
-	"devDependencies": {
-		"@changesets/cli": "2.26.0",
-		"@types/hast": "2.3.4",
-		"@vitest/coverage-c8": "0.26.2",
-		"hast-util-to-html": "8.0.3",
-		"hastscript": "7.1.0",
-		"prettier": "2.8.1",
-		"rehype": "12.0.1",
-		"rehype-parse": "8.0.4",
-		"rehype-stringify": "9.0.3",
-		"tsup": "6.5.0",
-		"typescript": "4.9.4",
-		"unified": "10.1.2",
-		"vite": "^4.4.8",
-		"vitest": "0.26.2"
-	},
-	"scripts": {
-		"format": "prettier . --write",
-		"lint": "tsc && prettier . --check",
-		"test": "vitest",
-		"coverage": "vitest run --coverage",
-		"build": "tsup",
-		"release": "npm run build && changeset publish"
-	}
+  "name": "@maxmmyron/rehype-section-headings",
+  "version": "1.2.0",
+  "description": "Wraps all heading elements and any following content with section tags",
+  "keywords": [
+    "unified",
+    "rehype",
+    "rehype-plugin",
+    "html",
+    "section",
+    "heading"
+  ],
+  "author": {
+    "name": "Max Myron",
+    "email": "max@mmyron.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/maxmmyron/rehype-section-headings",
+  "bugs": "https://github.com/maxmmyron/rehype-section-headings/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxmmyron/rehype-section-headings.git"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "dependencies": {
+    "hast-util-is-element": "^3.0.0",
+    "unist-util-visit": "4.1.1"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.26.0",
+    "@types/hast": "2.3.4",
+    "@vitest/coverage-c8": "0.26.2",
+    "hast-util-to-html": "8.0.3",
+    "hastscript": "7.1.0",
+    "prettier": "2.8.1",
+    "rehype": "12.0.1",
+    "rehype-parse": "8.0.4",
+    "rehype-stringify": "9.0.3",
+    "tsup": "6.5.0",
+    "typescript": "4.9.4",
+    "unified": "10.1.2",
+    "vite": "^4.4.8",
+    "vitest": "0.26.2"
+  },
+  "scripts": {
+    "format": "prettier . --write",
+    "lint": "tsc && prettier . --check",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "build": "tsup",
+    "release": "npm run build && changeset publish"
+  }
 }
