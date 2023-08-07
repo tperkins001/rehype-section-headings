@@ -15,7 +15,8 @@ type Headers = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 export type RehypeSectionHeadingsOptions = {
   sectionDataAttribute?: string;
   maxHeadingRank?: 1 | 2 | 3 | 4 | 5 | 6;
-  wrap?: Partial<Record<Headers, string | Element>>;
+  headerWrap?: Partial<Record<Headers, string | Element>>;
+  contentWrap?: string | Element;
 };
 
 /**
@@ -27,18 +28,21 @@ export type RehypeSectionHeadingsOptions = {
  * The value of the data-* attribute will be the same as the heading elements `id` attribute.
  * @param options.maxHeadingRank The maximum heading rank to wrap with `<section>` tags.
  * For example, if `maxHeadingRank` is set to `3`, then only `<h1>`, `<h2>` and `<h3>` elements will be wrapped.
- * @param options.wrap An object that allows you to specify a custom wrapper element for each heading element.
+ * @param options.headerWrap An object that allows you to specify a custom wrapper element for each heading element.
  * For example, if you want to wrap all `<h1>` elements with a `<div>` tag, you can do so by specifying `{ h1: "div" }`.
  * If you want to add additional properties to the wrapper element, you can do so by specifying a hast Element object.
+ * @param options.contentWrap Allows you to specify a custom wrapper element for the content of each section.
  *
  * @returns tree with all heading elements wrapped with a `<section>` tag
  */
 const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
   options: RehypeSectionHeadingsOptions = {}
 ) => {
+  // extract properties
   const sectionDataAttribute = options.sectionDataAttribute;
   const maxHeadingRank = options.maxHeadingRank ?? 6;
-  const wrap = options.wrap ?? {};
+  const headerWrap = options.headerWrap ?? {};
+  const contentWrap = options.contentWrap ?? null;
 
   if (sectionDataAttribute !== undefined) {
     validateDataAttribute(sectionDataAttribute);
@@ -72,6 +76,7 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
         return;
       }
 
+
       let nextHeadingIdx = currentHeadingIdx;
       while (++nextHeadingIdx < parent.children.length) {
         const nextNode = parent.children[nextHeadingIdx];
@@ -84,7 +89,8 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
             currentHeadingIdx,
             nextHeadingIdx,
             sectionDataAttribute,
-            wrap
+            headerWrap,
+            contentWrap
           );
           return;
         }
@@ -95,7 +101,8 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
         currentHeadingIdx,
         nextHeadingIdx,
         sectionDataAttribute,
-        wrap
+        headerWrap,
+        contentWrap
       );
     });
   };
@@ -106,7 +113,8 @@ function wrapWithSection(
   currentHeadingIdx: number,
   nextHeadingIdx: number,
   headingIdAttributeName: string | undefined,
-  wrap: Partial<Record<Headers, string | Element>>
+  headerWrap: Partial<Record<Headers, string | Element>>,
+  contentWrap: string | Element | null
 ) {
   const headingElement = tree[currentHeadingIdx];
   let properties = Object.create(null) as Properties;
@@ -120,50 +128,47 @@ function wrapWithSection(
     };
   }
 
+  // wrap heading element
   if (
     headingElement?.type === "element" &&
-    Object.keys(wrap).includes(headingElement.tagName)
+    Object.keys(headerWrap).includes(headingElement.tagName)
   ) {
-    const wrapper = wrap[headingElement.tagName as Headers];
-    if (typeof wrapper === "string") {
-      if (wrapper !== "") {
-        const wrapperElement: Element = {
-          type: "element",
-          tagName: wrapper,
-          children: [headingElement],
-        };
+    const wrapper = headerWrap[headingElement.tagName as Headers];
 
-        tree.splice(currentHeadingIdx, 1, wrapperElement);
-      }
-    } else {
-      if (isElement(wrapper)) {
-        const wrapperElement: Element = {
-          type: "element",
-          tagName: wrapper.tagName,
-          children: [headingElement],
-          properties: {
-            ...wrapper.properties,
-          },
-        };
-
-        tree.splice(currentHeadingIdx, 1, wrapperElement);
-      }
+    if(wrapper !== undefined && wrapper !== null && wrapper !== "") {
+      tree.splice(currentHeadingIdx, 1, {
+        type: "element",
+        tagName: typeof wrapper === "string" ? wrapper : wrapper.tagName,
+        children: [headingElement],
+        properties: typeof wrapper === "string" || !isElement(wrapper) ? {} : wrapper.properties,
+      });
     }
   }
 
+  // wrap main contents
+  if(contentWrap !== null && contentWrap !== "") {
+    const mainContents = tree.slice(currentHeadingIdx + 1, nextHeadingIdx) as ElementContent[];
+
+    tree.splice(currentHeadingIdx + 1, mainContents.length, {
+      type: "element",
+      tagName: typeof contentWrap === "string" ? contentWrap : contentWrap.tagName,
+      children: mainContents,
+      properties: typeof contentWrap === "string" ? {} : contentWrap.properties,
+    });
+  }
+
+  // wrap heading & main in <section>
   const sectionContents = tree.slice(
     currentHeadingIdx,
-    nextHeadingIdx
+    contentWrap ? currentHeadingIdx + 2 : nextHeadingIdx
   ) as ElementContent[];
 
-  const section: Element = {
+  tree.splice(currentHeadingIdx, sectionContents.length, {
     type: "element",
     tagName: "section",
     children: sectionContents,
     properties,
-  };
-
-  tree.splice(currentHeadingIdx, sectionContents.length, section);
+  });
 }
 
 function isHeadingNode(
