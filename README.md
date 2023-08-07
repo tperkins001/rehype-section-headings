@@ -175,7 +175,7 @@ rehype().use(rehypeSectionHeadings, { maxHeadingLevel: 2 }).process(html);
 </section>
 ```
 
-#### options.wrap
+#### options.headerWrap
 
 Type:
 `Partial<Record<"h1" | "h2" | "h3" | "h4" | "h5" | "h6", string | Hast.Element>>`. Default: `{}`.
@@ -197,7 +197,7 @@ const html = `
 `;
 
 rehype()
-  .use(rehypeSectionHeadings, { wrap: { h1: "aside" } })
+  .use(rehypeSectionHeadings, { headerWrap: { h1: "aside" } })
   .process(html);
 ```
 
@@ -234,7 +234,7 @@ const html = `
 
 rehype()
   .use(rehypeSectionHeadings, {
-    wrap: {
+    headerWrap: {
       h1: {
         type: "element",
         tagName: "aside",
@@ -259,6 +259,151 @@ rehype()
 <section>
   <h2>Heading level 2</h2>
   <p>What is the meaning of life?</p>
+</section>
+```
+
+#### options.contentWrap
+
+Type: `string | Hast.Element`. default: `null`.
+
+An optional element to wrap the content of a section in. Useful as a jumping-off point when you need to further customize a section's content. Accepts either a string (i.e. a tag name like `"div"`) or a hast Element.
+
+```js
+import rehype from "rehype";
+import rehypeSectionHeadings from "@maxmmyron/rehype-section-headings";
+
+const html = `
+<h1>Heading level 1</h1>
+<p>Hey, World!</p>
+<p>This is a bit of content.</p>
+<img src="LK-99.png" alt="A supposed room-temperature superconductor." />
+<h2>Heading level 2</h2>
+<p>I want to believe!!!</p>
+`;
+
+rehype().use(rehypeSectionHeadings, { contentWrap: "main" }).process(html);
+```
+
+...results in the following output
+
+```html
+<section>
+  <h1>Heading level 1</h1>
+  <main>
+    <p>Hey, World!</p>
+    <p>This is a bit of content.</p>
+    <img src="LK-99.png" alt="A supposed room-temperature superconductor." />
+  </main>
+</section>
+<section>
+  <h2>Heading level 2</h2>
+  <main>
+    <p>I want to believe!!!</p>
+  </main>
+</section>
+```
+
+We can also provide this as a hast element, to get more granular control over the element's properties:
+
+```js
+import rehype from "rehype";
+import rehypeSectionHeadings from "@maxmmyron/rehype-section-headings";
+
+const html = `
+<h1>Heading level 1</h1>
+<p>Hey, World!</p>
+<p>This is a bit of content.</p>
+<img src="LK-99.png" alt="A supposed room-temperature superconductor." />
+<h2>Heading level 2</h2>
+<p>I want to believe!!!</p>
+`;
+
+rehype()
+  .use(rehypeSectionHeadings, {
+    contentWrap: {
+      type: "element",
+      tagName: "main",
+      properties: { className: ["content"] },
+      children: [],
+    },
+  })
+  .process(html);
+```
+
+...results in the following output
+
+```html
+<section>
+  <h1>Heading level 1</h1>
+  <main class="content">
+    <p>Hey, World!</p>
+    <p>This is a bit of content.</p>
+    <img src="LK-99.png" alt="A supposed room-temperature superconductor." />
+  </main>
+</section>
+<section>
+  <h2>Heading level 2</h2>
+  <main class="content">
+    <p>I want to believe!!!</p>
+  </main>
+</section>
+```
+
+We can even combine this with [`options.headerWrap`](#optionsheaderwrap) to get even more control over the output:
+
+```js
+import rehype from "rehype";
+
+const html = `
+<h1>Heading level 1</h1>
+<p>Hey, World!</p>
+<p>This is a bit of content.</p>
+<img src="LK-99.png" alt="A supposed room-temperature superconductor." />
+<h2>Heading level 2</h2>
+<p>I want to believe!!!</p>
+`;
+
+rehype()
+  .use(rehypeSectionHeadings, {
+    headerWrap: {
+      h1: "header",
+      h2: {
+        type: "element",
+        tagName: "aside",
+        properties: { className: ["aside"] },
+        children: [],
+      },
+    },
+    contentWrap: {
+      type: "element",
+      tagName: "main",
+      properties: { className: ["content"] },
+      children: [],
+    },
+  })
+  .process(html);
+```
+
+...results in the following output
+
+```html
+<section>
+  <header>
+    <h1>Heading level 1</h1>
+  </header>
+  <main class="content">
+    <p>Hey, World!</p>
+    <p>This is a bit of content.</p>
+    <img src="LK-99.png" alt="A supposed room-temperature superconductor." />
+  </main>
+</section>
+<section>
+  <aside class="aside">
+    <h2>Heading level 2</h2>
+  </aside>
+  <main class="content">
+    <p>I want to believe!!!</p>
+  </main>
 </section>
 ```
 

@@ -1056,11 +1056,11 @@ describe("with headingWrap", () => {
 });
 
 describe("with contentWrap", () => {
-	test("wraps content based on wrap option", () => {
+  test("wraps content based on wrap option", () => {
     // Arrange
     const processorWithOption = rehype()
       .use(rehypeParse, { fragment: true })
-      .use(rehypeSectionHeadings, {contentWrap: "main"})
+      .use(rehypeSectionHeadings, { contentWrap: "main" })
       .use(rehypeStringify);
 
     // Arrange
@@ -1074,8 +1074,8 @@ describe("with contentWrap", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h1("Heading h1"),
@@ -1086,28 +1086,30 @@ describe("with contentWrap", () => {
 			],
 		);
 
-		// Act
-		processorWithOption.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processorWithOption.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wraps content using hast element as wrap option", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, {contentWrap: {
-				type: "element",
-				tagName: "main",
-				properties: { className: ["content-wrapper"] },
-				children: [],
-			}})
-			.use(rehypeStringify);
+  test("wraps content using hast element as wrap option", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, {
+        contentWrap: {
+          type: "element",
+          tagName: "main",
+          properties: { className: ["content-wrapper"] },
+          children: [],
+        },
+      })
+      .use(rehypeStringify);
 
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heading h1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -1116,8 +1118,8 @@ describe("with contentWrap", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h1("Heading h1"),
@@ -1128,26 +1130,29 @@ describe("with contentWrap", () => {
 			],
 		);
 
-		// Act
-		processorWithOption.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processorWithOption.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("wraps content with headerWrap option as well", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, {contentWrap: "main", headerWrap: {
-				h1: "header",
-				h2: "aside",
-			}})
-			.use(rehypeStringify);
+  test("wraps content with headerWrap option as well", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, {
+        contentWrap: "main",
+        headerWrap: {
+          h1: "header",
+          h2: "aside",
+        },
+      })
+      .use(rehypeStringify);
 
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heading h1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -1156,8 +1161,8 @@ describe("with contentWrap", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[div(h1("Heading h1")),
@@ -1168,23 +1173,23 @@ describe("with contentWrap", () => {
 			],
 		);
 
-		// Act
-		processorWithOption.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processorWithOption.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 
-	test("does not wrap if property value is undefined or empty string", () => {
-		// Arrange
-		const processorWithOption = rehype()
-			.use(rehypeParse, { fragment: true })
-			.use(rehypeSectionHeadings, {contentWrap: ""})
-			.use(rehypeStringify);
+  test("does not wrap if property value is undefined or empty string", () => {
+    // Arrange
+    const processorWithOption = rehype()
+      .use(rehypeParse, { fragment: true })
+      .use(rehypeSectionHeadings, { contentWrap: "" })
+      .use(rehypeStringify);
 
-		// Arrange
-		// prettier-ignore
-		const original = toHtml(
+    // Arrange
+    // prettier-ignore
+    const original = toHtml(
 			[
 				h1("Heading h1"),
 				p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
@@ -1193,8 +1198,8 @@ describe("with contentWrap", () => {
 			],
 		);
 
-		// prettier-ignore
-		const expected = toHtml(
+    // prettier-ignore
+    const expected = toHtml(
 			[
 				section(
 					[h1("Heading h1"),
@@ -1205,10 +1210,10 @@ describe("with contentWrap", () => {
 			],
 		);
 
-		// Act
-		processorWithOption.process(original, (_, actual) => {
-			// Assert
-			expect(actual?.value).toStrictEqual(expected);
-		});
-	});
+    // Act
+    processorWithOption.process(original, (_, actual) => {
+      // Assert
+      expect(actual?.value).toStrictEqual(expected);
+    });
+  });
 });
