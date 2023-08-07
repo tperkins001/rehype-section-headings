@@ -19,7 +19,8 @@ elements and any following content with `<section>` tags
   - [options](#options)
     - [options.sectionDataAttribute](#optionsheadingiddataattribute)
     - [options.maxHeadingLevel](#optionsmaxheadinglevel)
-    - [options.wrap](#optionswrap)
+    - [options.headerWrap](#optionsheaderwrap)
+    - [options.contentWrap](#optionscontentwrap)
 - [License](#license)
 
 ## Installation
