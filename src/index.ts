@@ -76,7 +76,6 @@ const rehypeSectionHeadings: Plugin<[RehypeSectionHeadingsOptions?], Root> = (
         return;
       }
 
-
       let nextHeadingIdx = currentHeadingIdx;
       while (++nextHeadingIdx < parent.children.length) {
         const nextNode = parent.children[nextHeadingIdx];
@@ -135,23 +134,30 @@ function wrapWithSection(
   ) {
     const wrapper = headerWrap[headingElement.tagName as Headers];
 
-    if(wrapper !== undefined && wrapper !== null && wrapper !== "") {
+    if (wrapper !== undefined && wrapper !== null && wrapper !== "") {
       tree.splice(currentHeadingIdx, 1, {
         type: "element",
         tagName: typeof wrapper === "string" ? wrapper : wrapper.tagName,
         children: [headingElement],
-        properties: typeof wrapper === "string" || !isElement(wrapper) ? {} : wrapper.properties,
+        properties:
+          typeof wrapper === "string" || !isElement(wrapper)
+            ? {}
+            : wrapper.properties,
       });
     }
   }
 
   // wrap main contents
-  if(contentWrap !== null && contentWrap !== "") {
-    const mainContents = tree.slice(currentHeadingIdx + 1, nextHeadingIdx) as ElementContent[];
+  if (contentWrap !== null && contentWrap !== "") {
+    const mainContents = tree.slice(
+      currentHeadingIdx + 1,
+      nextHeadingIdx
+    ) as ElementContent[];
 
     tree.splice(currentHeadingIdx + 1, mainContents.length, {
       type: "element",
-      tagName: typeof contentWrap === "string" ? contentWrap : contentWrap.tagName,
+      tagName:
+        typeof contentWrap === "string" ? contentWrap : contentWrap.tagName,
       children: mainContents,
       properties: typeof contentWrap === "string" ? {} : contentWrap.properties,
     });
