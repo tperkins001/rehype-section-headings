@@ -21,6 +21,7 @@ const p = (...args) => h("p", ...args);
 const span = (...args) => h("span", ...args);
 const div = (...args) => h("div", ...args);
 const aside = (...args) => h("aside", ...args);
+const header = (...args) => h("header", ...args);
 
 describe("without options", () => {
   let processor: Processor<Root, Root, Root, string>;
@@ -1165,10 +1166,10 @@ describe("with contentWrap", () => {
     const expected = toHtml(
 			[
 				section(
-					[div(h1("Heading h1")),
+					[header(h1("Heading h1")),
 					main(p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"))]),
 				section(
-					[div(h2("Heading h2")),
+					[aside(h2("Heading h2")),
 					main(p("Lorem ipsum dolor sit amet, consectetur adipiscing elit"))]),
 			],
 		);
